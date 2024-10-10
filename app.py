@@ -20,9 +20,30 @@ app.config.suppress_callback_exceptions = True
 
 
 # Load data from csv
+
 def load_data():
-    # To do: Completar la función 
-    
+    try:
+        # Cargar el archivo CSV en un DataFrame de pandas
+        data = pd.read_csv('datos_energia.csv')
+        
+        # Convertir la columna 'time' a formato datetime utilizando el formato específico
+        data['time'] = pd.to_datetime(data['time'], format='%d/%m/%Y %I:%M:%S %p', errors='coerce')
+        
+        # Verificar si hay valores no convertidos (NaT) en la columna de fechas
+        if data['time'].isna().sum() > 0:
+            print("Advertencia: Se encontraron fechas no válidas.")
+        
+        # Establecer la columna 'time' como índice del DataFrame
+        data.set_index('time', inplace=True)
+        
+        print("Datos cargados y procesados correctamente")
+        return data
+    except FileNotFoundError:
+        print("El archivo datos_energia.csv no fue encontrado.")
+        return None
+    except Exception as e:
+        print(f"Error al cargar los datos: {e}")
+        return None      
 
 # Cargar datos
 data = load_data()
