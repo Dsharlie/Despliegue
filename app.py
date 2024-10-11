@@ -27,7 +27,7 @@ def load_data():
         data = pd.read_csv('datos_energia.csv')
         
         # Convertir la columna 'time' a formato datetime utilizando el formato específico
-        data['time'] = pd.to_datetime(data['time'], format='%d/%m/%Y %I:%M:%S %p', errors='coerce')
+        data['time'] = pd.to_datetime(data['time'], format='%Y-%m-%d %H:%M:%S', errors='coerce')
         
         # Verificar si hay valores no convertidos (NaT) en la columna de fechas
         if data['time'].isna().sum() > 0:
@@ -43,7 +43,7 @@ def load_data():
         return None
     except Exception as e:
         print(f"Error al cargar los datos: {e}")
-        return None      
+        return None    
 
 # Cargar datos
 data = load_data()
@@ -261,4 +261,4 @@ def update_output_div(date, hour, proy):
 
 # Run the server
 if __name__ == "__main__":
-    app.run_server( host =" 0.0.0.0 ", debug = True )
+    app.run_server(debug = True )
